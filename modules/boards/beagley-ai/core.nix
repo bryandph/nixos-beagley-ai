@@ -28,6 +28,30 @@
       enable = true;
       name = release.board.dtb;
       filter = "k3-am67a-beagley-ai*.dtb";
+      overlays = [
+        {
+          name = "beagley-ai-rtc-order";
+          filter = "k3-am67a-beagley-ai";
+          # RTC aliases are not reserved globally. Give the early-probed
+          # internal RTC an explicit ID so it cannot take the DS1340's rtc0.
+          dtsText = ''
+            /dts-v1/;
+            /plugin/;
+            / {
+              compatible = "beagle,am67a-beagley-ai";
+              fragment@0 {
+                target-path = "/aliases";
+                __overlay__ {
+                  rtc1 = "/bus@f0000/bus@b00000/rtc@2b1f0000";
+                };
+              };
+            };
+          '';
+        }
+      ];
+    };
+    system.build.beagleyAiDeviceTreeCheck = pkgs.callPackage ../../../packages/device-tree-check.nix {
+      deviceTree = config.hardware.deviceTree.package;
     };
     assertions = [
       {

@@ -17,6 +17,11 @@ in
       chmod -R u+w "$out"
       cp ${reference}/${release.kernel.config} "$out/arch/arm64/configs/beagley_ai_defconfig"
       cp ${reference}/${release.kernel.patchDirectory}/dt/* "$out/arch/arm64/boot/dts/ti/"
+      cp ${./k3-am67a-beagley-ai-cpu-cooling.dtsi} "$out/arch/arm64/boot/dts/ti/k3-am67a-beagley-ai-cpu-cooling.dtsi"
+      chmod u+w "$out/arch/arm64/boot/dts/ti/k3-am67a-beagley-ai-armbian.dtsi"
+      cat >> "$out/arch/arm64/boot/dts/ti/k3-am67a-beagley-ai-armbian.dtsi" <<'EOF'
+      #include "k3-am67a-beagley-ai-cpu-cooling.dtsi"
+      EOF
     '';
     defconfig = "beagley_ai_defconfig";
     autoModules = false;
@@ -36,6 +41,13 @@ in
       SERIAL_8250_CONSOLE = yes;
       BLK_DEV_NVME = module;
       PCI_J721E_HOST = yes;
+      # Own hub power/reset before enumeration, avoiding a late module reset.
+      USB_ONBOARD_DEV = yes;
+      CPU_FREQ = yes;
+      CPUFREQ_DT = yes;
+      CPUFREQ_DT_PLATDEV = yes;
+      CPU_THERMAL = yes;
+      THERMAL_GOV_STEP_WISE = yes;
       CGROUPS = yes;
       NAMESPACES = yes;
       INOTIFY_USER = yes;

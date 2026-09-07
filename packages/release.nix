@@ -77,6 +77,14 @@
       "0002-arm64-dts-ti-build-BeagleY-AI-EdgeAI-DTBs.patch"
     ];
     config = "config/kernel/linux-k3-beagle-vendor.config";
+    cpuCooling = {
+      referenceUrl = "https://e2e.ti.com/cfs-file/__key/communityserver-discussions-components-files/791/cooling_2D00_wth_2D00_dfs.tar";
+      referenceSha256 = "b601d51b5d054960c9219ebe7dbed8f54eb23ab6c2533d4b3da7f31b8e7bba16";
+      referencePatch = "91f95cf046fb4ba4002d8c4f5a99fe80614f482c";
+      license = "GPL-2.0-only OR MIT";
+      # Board boot frequency; deliberately below TI's 1.4 GHz EVM example.
+      maximumFrequencyHz = 1200000000;
+    };
   };
   boot = {
     ubootVersion = "2025.07";

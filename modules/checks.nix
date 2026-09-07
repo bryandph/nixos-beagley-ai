@@ -26,6 +26,9 @@ in {
           '';
       }
       // lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
+        device-tree-contract = pkgs.callPackage ../packages/device-tree-check.nix {
+          deviceTree = board.hardware.deviceTree.package;
+        };
         boot-reproducibility = let
           r5 = pkgs.callPackage ../packages/uboot.nix {stage = "r5";};
           a53 = pkgs.callPackage ../packages/uboot.nix {};

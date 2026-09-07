@@ -3,7 +3,11 @@
 Reusable board support for the 4 GB BeagleY-AI, based on the TI J722S/AM67A.
 The server milestone has been exercised on hardware: cold and warm boot,
 four CPUs, 3.7 GiB usable RAM, SD root growth, Gigabit Ethernet, and consumer
-declarative SSH/firewall configuration. Full hardware enablement remains open;
+declarative SSH/firewall configuration. Generation rollback and restoration,
+CPU frequency/thermal limiting, and external RTC boot ordering are verified.
+The first boot with built-in USB hub reset ownership also eliminated the
+earlier hub enumeration errors; repeated boots and peripheral traffic remain
+to be tested. Full hardware enablement remains open;
 accelerators, wireless and multimedia are not yet implemented. See the
 [hardware coverage matrix](docs/hardware.md) for verification limits and
 intermittent peripheral behavior.
@@ -22,6 +26,7 @@ nix build .#packages.x86_64-linux.beagley-ai-optee
 nix build .#packages.x86_64-linux.beagley-ai-boot-bundle
 nix build .#packages.aarch64-linux.beagley-ai-sd-image
 nix build .#checks.aarch64-linux.sd-image-layout
+nix build .#checks.aarch64-linux.device-tree-contract
 ```
 
 Boot tools can cross-build on x86 Linux. The target image uses AArch64 Linux
@@ -47,6 +52,9 @@ and `/boot`; existing NVMe must remain unmounted and unmodified. The boot ROM
 loads `tiboot3.bin`, `tispl.bin`, and `u-boot.img` from FAT. Extlinux retains
 kernel/initrd/DTB generations. Early boot firmware rollback requires the
 known-good card or image; it is separate from NixOS generation rollback.
+
+See [CPU cooling](docs/cpu-cooling.md), [USB host behavior](docs/usb-host.md),
+and [RTC setup](docs/rtc.md) for implementation and acceptance limits.
 
 See [SD boot and recovery](docs/boot-recovery.md) before flashing or diagnosing
 a silent boot. The image layout check validates FAT geometry, boot references

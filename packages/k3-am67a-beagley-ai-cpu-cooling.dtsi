@@ -1,0 +1,59 @@
+// SPDX-License-Identifier: GPL-2.0-only OR MIT
+/*
+ * BeagleY-AI CPU DFS, adapted from TI's AM67 SDK 11 cooling example.
+ * See docs/cpu-cooling.md for source provenance and frequency limits.
+ * Keep voltage unchanged and never exceed this board's 1.2 GHz boot clock.
+ */
+
+#include <dt-bindings/thermal/thermal.h>
+
+/ {
+	beagley_a53_opp_table: opp-table-cpu {
+		compatible = "operating-points-v2";
+		opp-shared;
+
+		opp-200000000 { opp-hz = /bits/ 64 <200000000>; };
+		opp-400000000 { opp-hz = /bits/ 64 <400000000>; };
+		opp-600000000 { opp-hz = /bits/ 64 <600000000>; };
+		opp-800000000 { opp-hz = /bits/ 64 <800000000>; };
+		opp-1000000000 { opp-hz = /bits/ 64 <1000000000>; };
+		opp-1200000000 { opp-hz = /bits/ 64 <1200000000>; };
+	};
+};
+
+&cpu0 {
+	operating-points-v2 = <&beagley_a53_opp_table>;
+	#cooling-cells = <2>;
+};
+
+&cpu1 {
+	operating-points-v2 = <&beagley_a53_opp_table>;
+	#cooling-cells = <2>;
+};
+
+&cpu2 {
+	operating-points-v2 = <&beagley_a53_opp_table>;
+	#cooling-cells = <2>;
+};
+
+&cpu3 {
+	operating-points-v2 = <&beagley_a53_opp_table>;
+	#cooling-cells = <2>;
+};
+
+&main0_thermal {
+	trips {
+		beagley_cpu_alert: cpu-alert {
+			temperature = <60000>;
+			hysteresis = <2000>;
+			type = "passive";
+		};
+	};
+
+	cooling-maps {
+		cpu-map {
+			trip = <&beagley_cpu_alert>;
+			cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
+		};
+	};
+};
