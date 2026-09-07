@@ -33,7 +33,13 @@ in
         inherit name;
         patch = "${reference}/${release.kernel.patchDirectory}/${name}";
       })
-      release.kernel.patches;
+      release.kernel.patches
+      ++ [
+        {
+          name = "j722s-free-jpeg-irq";
+          patch = ./0001-j722s-free-jpeg-irq.patch;
+        }
+      ];
     structuredExtraConfig = with lib.kernel; {
       ARCH_K3 = yes;
       TI_K3_AM65_CPSW_NUSS = yes;
@@ -48,6 +54,20 @@ in
       CPUFREQ_DT_PLATDEV = yes;
       CPU_THERMAL = yes;
       THERMAL_GOV_STEP_WISE = yes;
+      # Inspect watchdog identity/state without opening and arming /dev/watchdog.
+      WATCHDOG_SYSFS = yes;
+      # CC3301 uses the matched CC33xx SDIO stack and TI serdev Bluetooth driver.
+      CC33XX = module;
+      CC33XX_SDIO = module;
+      BT_TI_UART = module;
+      BT_LE = yes;
+      CFG80211_DEBUGFS = yes;
+      MAC80211_DEBUGFS = yes;
+      DRM_CDNS_DSI = module;
+      DRM_CDNS_DSI_J721E = yes;
+      PHY_CADENCE_DPHY = module;
+      DRM_TOSHIBA_TC358762 = module;
+      REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY = module;
       CGROUPS = yes;
       NAMESPACES = yes;
       INOTIFY_USER = yes;

@@ -1,0 +1,22 @@
+{
+  "utils": {
+    "url": "https://git.ti.com/git/edgeai/edgeai-apps-utils.git",
+    "rev": "3a80d12341b4df80500572c0f01d969113ad0655",
+    "hash": "sha256-LnMMpHz8diqRqOaCSaWk8eXOoiZob4FYMc0rGHaUq6g="
+  },
+  "kernels": {
+    "url": "https://git.ti.com/git/edgeai/edgeai-tiovx-kernels.git",
+    "rev": "b336fcf451eb0a6c44b23273e091e74e29daa393",
+    "hash": "sha256-iBBRQzkXsweacw4Q57ilKpvu6D943NlXFBI6yq/zQyo="
+  },
+  "modules": {
+    "url": "https://git.ti.com/git/edgeai/edgeai-tiovx-modules.git",
+    "rev": "bbfa4f370c266e6cee53926d1dd301ab01660452",
+    "hash": "sha256-5NvujIAS5quEms6w4r3TnWrgO5IhXsW1E/SFwXGiL3g="
+  },
+  "gst": {
+    "url": "https://github.com/TexasInstruments/edgeai-gst-plugins.git",
+    "rev": "2186d723fcc84e404ade1f07f93ecb3b1154789e",
+    "hash": "sha256-TmmvCFWNFztoZvHcVY8+7ehGYUy43KCuOlXn2InpNLQ="
+  }
+}

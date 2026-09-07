@@ -1,0 +1,22 @@
+[
+  {
+    "file": "tflite_runtime-2.12.0-cp312-cp312-linux_aarch64.whl",
+    "url": "https://software-dl.ti.com/jacinto7/esd/tidl-tools/11_02_16_00/OSRT_TOOLS/ARM_LINUX/ARAGO/tflite_runtime-2.12.0-cp312-cp312-linux_aarch64.whl",
+    "hash": "sha256-HQ0nE5VkdrIOt2XutxrVB9acOR5zoFs1bdWZDis2rT8="
+  },
+  {
+    "file": "onnxruntime_tidl-1.23.0-cp312-cp312-linux_aarch64.whl",
+    "url": "https://software-dl.ti.com/jacinto7/esd/tidl-tools/11_02_16_00/OSRT_TOOLS/ARM_LINUX/ARAGO/onnxruntime_tidl-1.23.0-cp312-cp312-linux_aarch64.whl",
+    "hash": "sha256-W1sO+FLPBZuz7gOZa8eCkAFV9bGe2mPh/OhPoTrBZIo="
+  },
+  {
+    "file": "tvm-0.18.0-cp312-cp312-linux_aarch64.whl",
+    "url": "https://software-dl.ti.com/jacinto7/esd/tidl-tools/11_02_16_00/OSRT_TOOLS/ARM_LINUX/ARAGO/tvm-0.18.0-cp312-cp312-linux_aarch64.whl",
+    "hash": "sha256-mOLY8sTrsU7Mxr0d+x328KhyFB/n/YPm/kEXX3EGSL0="
+  },
+  {
+    "file": "tidlruntime-0.1.0-cp312-cp312-linux_aarch64.whl",
+    "url": "https://software-dl.ti.com/jacinto7/esd/tidl-tools/11_02_16_00/OSRT_TOOLS/ARM_LINUX/ARAGO/tidlruntime-0.1.0-cp312-cp312-linux_aarch64.whl",
+    "hash": "sha256-OE2CWjYttyQRwQ7MrPu+9dS0h8FZmCoX4niLtyTFpR4="
+  }
+]

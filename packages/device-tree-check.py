@@ -4,6 +4,7 @@ import subprocess
 import sys
 
 dtb, maximum = sys.argv[1], int(sys.argv[2])
+passive, hysteresis = map(int, sys.argv[3:5])
 
 
 def get(node, prop, kind="s"):
@@ -79,6 +80,8 @@ for node in maps:
     trip = phandles[cells(node, "trip")[0]]
     assert get(trip, "type") == "passive"
     threshold = cells(trip, "temperature")[0]
+    assert threshold == passive, (threshold, passive)
+    assert cells(trip, "hysteresis") == [hysteresis]
     assert 0 < cells(trip, "hysteresis")[0] < threshold
     zone = node.split("/cooling-maps/")[0]
     criticals = [

@@ -1,0 +1,62 @@
+[
+  {
+    "path": "sdk_builder",
+    "url": "https://git.ti.com/git/processor-sdk/sdk_builder.git",
+    "rev": "35a403ff449c3e45e219f50a2bd3a5a7489e9fb7",
+    "hash": "sha256-xosFDxL1cDripZRBJZbLI9R9q2IBWt4uIngijrrXmeE="
+  },
+  {
+    "path": "app_utils",
+    "url": "https://git.ti.com/git/processor-sdk/app_utils.git",
+    "rev": "a071fbea01fdc31b8c89e4a1270eab4f8df5e1c8",
+    "hash": "sha256-weSusxC7DgqNKcvGm69vRNGa/iusRteKtLooWo5BVi8="
+  },
+  {
+    "path": "vision_apps",
+    "url": "https://git.ti.com/git/processor-sdk/vision_apps.git",
+    "rev": "86f71a02f1664e9da9096e90ab4d126f5e71cf71",
+    "hash": "sha256-Fux0LLcgp6xidJNQx76K8wSK6i/RNJffn4nXyN/JQYU="
+  },
+  {
+    "path": "tiovx",
+    "url": "https://git.ti.com/git/processor-sdk/tiovx.git",
+    "rev": "6d2cbece7c8c710f66f9f9bddebf08bdeead7d22",
+    "hash": "sha256-baw5CDGFPqTxDvcjT1fMPMLnWiWGwntPT6LJklBYxqI="
+  },
+  {
+    "path": "imaging",
+    "url": "https://git.ti.com/git/processor-sdk/imaging.git",
+    "rev": "cdd1eec3de12f5754bcbaa2d80b6cbf3424425ff",
+    "hash": "sha256-4gH/QMibDlHgCNo1krw2eeU90akpNscXMAIiRJnVPss="
+  },
+  {
+    "path": "video_io",
+    "url": "https://git.ti.com/git/processor-sdk/video_io.git",
+    "rev": "f06660d8724cdc2ae9cb314132276ae798951dfe",
+    "hash": "sha256-ywTnKBZu0c44cJj3H8hDM2PLXzaUzIz2q9aKsW7YvyM="
+  },
+  {
+    "path": "ti-perception-toolkit",
+    "url": "https://git.ti.com/git/processor-sdk/ti-perception-toolkit.git",
+    "rev": "7074d1c78e28082c657b77bf2ed5dc40525146c0",
+    "hash": "sha256-C+9gdZnq2Bt8lPDquOhnOGL5GbJN/J9dROjEqXr2MqE="
+  },
+  {
+    "path": "psdk_include",
+    "url": "https://git.ti.com/git/processor-sdk/psdk_include.git",
+    "rev": "2dde83677ad4daf0d3e53bcd6d2a032a9bac53aa",
+    "hash": "sha256-98+M9d3epWcJjttkW/YieWwbjcl2JD3/A9EX6pNwego="
+  },
+  {
+    "path": "psdk_include/tidl_j7/arm-tidl",
+    "url": "https://git.ti.com/git/processor-sdk-vision/arm-tidl.git",
+    "rev": "4f18da55af428fe33a02155641457077dbfeaa52",
+    "hash": "sha256-E5Gh6VB+QOYJ21POgcGbsYbyCyAZ3ih0bbP+/Xzzx/o="
+  },
+  {
+    "path": "sdk_builder/concerto",
+    "url": "https://git.ti.com/git/processor-sdk/concerto.git",
+    "rev": "5a659cf34226cc4f3a666aca2d97d1f0749ab729",
+    "hash": "sha256-YEc8I7pZCpWgUc0iV031ek/XWl8msK17n27STCEjxHU="
+  }
+]

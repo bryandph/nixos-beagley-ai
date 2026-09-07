@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: GPL-2.0-only OR MIT
+/* BeagleY-AI header routes adapted from BeagleBoard.org DeviceTrees.
+ * Copyright (C) BeagleBoard.org Foundation
+ * See docs/expansion.md for the pinned source and connector identities.
+ */
+/dts-v1/;
+/plugin/;
+#include <dt-bindings/gpio/gpio.h>
+#include <arm64/ti/k3-pinctrl.h>
+/ { compatible = "beagle,am67a-beagley-ai"; };
+&main_pmx0 {
+  beagley_header_gpio: beagley-header-gpio-pins {
+    pinctrl-single,pins = <J722S_IOPAD(0x1b0, PIN_INPUT, 7) J722S_IOPAD(0x1ac, PIN_INPUT, 7)>;
+  };
+};
+&main_gpio1 { pinctrl-names = "default"; pinctrl-0 = <&beagley_header_gpio>; status = "okay"; };
+&main_uart1 { status = "disabled"; };

@@ -1,0 +1,41 @@
+--- a/vision_apps/platform/j722s/linux/app_init.c
++++ b/vision_apps/platform/j722s/linux/app_init.c
+@@ -122 +122,4 @@
+-    gInitCount++;
++    if (status == 0)
++    {
++        gInitCount++;
++    }
+@@ -222,0 +226,7 @@
++            /* Do not let later service initialization mask an IPC failure. */
++            appIpcDeInit();
++            appMemDeInit();
++            appFileIOWrDeInit();
++            appLogWrDeInit();
++            appLogGlobalTimeDeInit();
++            return status;
+--- a/app_utils/utils/ipc/src/app_ipc_linux.c
++++ b/app_utils/utils/ipc/src/app_ipc_linux.c
+@@ -440 +440 @@
+-        if((1u==appIpcIsCpuEnabled(i)) && (i != appIpcGetSelfCpuId()))
++        if((1u==appIpcIsCpuEnabled(i)) && (i != appIpcGetSelfCpuId()) && (obj->rcdev[i] != NULL))
+--- a/app_utils/utils/ipc/src/app_ipc_linux_rpmsg_char.c
++++ b/app_utils/utils/ipc/src/app_ipc_linux_rpmsg_char.c
+@@ -474,0 +475,5 @@
++        if (obj->unblockfd >= 0)
++        {
++            (void)close(obj->unblockfd);
++            obj->unblockfd = -1;
++        }
+@@ -484,3 +489,8 @@
+-    appIpcUnblockRpmsgTask(obj);
+-    (void)pthread_join(obj->task, &task_status);
+-    (void)close(obj->unblockfd);
++    /* A TX-channel failure occurs before an RX thread/eventfd exists. */
++    if (obj->unblockfd >= 0)
++    {
++        appIpcUnblockRpmsgTask(obj);
++        (void)pthread_join(obj->task, &task_status);
++        (void)close(obj->unblockfd);
++        obj->unblockfd = -1;
++    }

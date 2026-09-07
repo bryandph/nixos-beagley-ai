@@ -84,6 +84,9 @@
       license = "GPL-2.0-only OR MIT";
       # Board boot frequency; deliberately below TI's 1.4 GHz EVM example.
       maximumFrequencyHz = 1200000000;
+      passiveTemperatureMillicelsius = 85000;
+      hysteresisMillicelsius = 5000;
+      thermalLimitReference = "https://www.ti.com/lit/ds/symlink/am67a.pdf";
     };
   };
   boot = {

@@ -1,0 +1,32 @@
+[
+  {
+    "name": "arm-tidl",
+    "url": "https://git.ti.com/git/processor-sdk-vision/arm-tidl.git",
+    "rev": "c276835324581767965b64963ee029b5bd934186",
+    "hash": "sha256-+oflCaYgsSaFZmZ78gHadkhaAoyhItKSNG1T0BeY7qw="
+  },
+  {
+    "name": "concerto",
+    "url": "https://git.ti.com/git/processor-sdk/concerto.git",
+    "rev": "f5541b85b9973ca47680d1a6d970bf61a126daa8",
+    "hash": "sha256-QUCCOeQ2+N9cTGC5PkCHWxh6w5w7KVRtMLQIprhSB1E="
+  },
+  {
+    "name": "onnxruntime",
+    "url": "https://github.com/TexasInstruments/onnxruntime.git",
+    "rev": "c5511e2854c94a627666c8e54f545ed46466036c",
+    "hash": "sha256-iW37Dtmfr3INWNcX8gstnuXTMbACR8ebHS6yKMADOOs="
+  },
+  {
+    "name": "tensorflow",
+    "url": "https://github.com/TexasInstruments/tensorflow.git",
+    "rev": "25b1dcb545e96d992f320e0403c39f3c9184a072",
+    "hash": "sha256-WnhI7lxJiLPo/vVnS3M8M2qB+8O0S6EORgt5AjwOQ94="
+  },
+  {
+    "name": "protobuf",
+    "url": "https://github.com/protocolbuffers/protobuf.git",
+    "rev": "f0dc78d7e6e331b8c6bb2d5283e06aa26883ca7c",
+    "hash": "sha256-VZQEFHq17UsTH5CZZOcJBKiScGV2xPJ/e6gkkVliRCU="
+  }
+]

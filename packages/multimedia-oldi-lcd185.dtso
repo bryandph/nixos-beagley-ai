@@ -1,0 +1,178 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/**
+ * Lincoln tech Solutions OLDI panel (LCD185-101CT) and touch DT overlay for J722S-BeagleY-AI
+ *
+ * J722S-BeagleY-AI: https://www.beagleboard.org/boards/beagley-ai
+ * Panel datasheet: https://lincolntechsolutions.com/wp-content/uploads/2023/04/LCD185-101CTL1ARNTT_DS_R1.3.pdf
+ *
+ * Copyright (C) 2024 Texas Instruments Incorporated - http://www.ti.com/
+ */
+
+/dts-v1/;
+/plugin/;
+
+/ { compatible = "beagle,am67a-beagley-ai"; };
+
+#include <dt-bindings/gpio/gpio.h>
+#include <arm64/ti/k3-pinctrl.h>
+#include <dt-bindings/interrupt-controller/irq.h>
+
+&{/} {
+	backlight: backlight {
+		compatible = "pwm-backlight";
+		pinctrl-names = "default";
+		pinctrl-0 = <&main_oldi_backlight_default_pins>, <&mcu_oldi_backlight_default_pins>;
+		brightness-levels = <0 4 8 16 32 64 128 255>;
+		default-brightness-level = <6>;
+		enable-gpios = <&mcu_gpio0 11 GPIO_ACTIVE_HIGH>;
+		pwms = <&ecap0 0 20000 0>;
+	};
+
+	lcd {
+		compatible = "lincolntech,lcd185-101ct", "panel-simple";
+		backlight = <&backlight>;
+		/*
+		* Note that the OLDI TX 0 transmits the odd set of pixels
+		* while the OLDI TX 1 transmits the even set. This is a
+		* fixed configuration in the IP integration and is not
+		* changeable. The properties, "dual-lvds-odd-pixels" and
+		* "dual-lvds-even-pixels" have been used to merely
+		* identify if a Dual Link configuration is required.
+		* Swapping them will cause an error in the dss oldi driver.
+		*/
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			port@0 {
+				reg = <0>;
+				dual-lvds-odd-pixels;
+				lcd_in0: endpoint {
+					remote-endpoint = <&oldi_0_out>;
+				};
+			};
+			port@1 {
+				reg = <1>;
+				dual-lvds-even-pixels;
+				lcd_in1: endpoint {
+					remote-endpoint = <&oldi_1_out>;
+				};
+			};
+		};
+	};
+};
+
+&dss0 {
+	status = "okay";
+};
+
+&oldi0_dss0 {
+	status = "okay";
+	ti,companion-oldi = <&oldi1_dss0>;
+};
+
+&oldi1_dss0 {
+	status = "okay";
+	ti,secondary-oldi;
+	ti,companion-oldi = <&oldi0_dss0>;
+};
+
+&oldi0_dss0_ports {
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	port@0 {
+		reg = <0>;
+		oldi_0_in: endpoint {
+			remote-endpoint = <&dpi0_out0>;
+		};
+	};
+
+	port@1 {
+		reg = <1>;
+		oldi_0_out: endpoint {
+			remote-endpoint = <&lcd_in0>;
+		};
+	};
+};
+
+&oldi1_dss0_ports {
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	port@0 {
+		reg = <0>;
+		oldi_1_in: endpoint {
+			remote-endpoint = <&dpi0_out1>;
+		};
+	};
+
+	port@1 {
+		reg = <1>;
+		oldi_1_out: endpoint {
+			remote-endpoint = <&lcd_in1>;
+		};
+	};
+};
+
+&dss0_ports {
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	/* VP1: Output to OLDI */
+	port@0 {
+		reg = <0>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		dpi0_out0: endpoint@0 {
+			reg = <0>;
+			remote-endpoint = <&oldi_0_in>;
+		};
+		dpi0_out1: endpoint@1 {
+			reg = <1>;
+			remote-endpoint = <&oldi_1_in>;
+		};
+	};
+};
+
+&main_i2c1 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	eeprom@57 {
+		compatible = "atmel,24c256";
+		reg = <0x57>;
+	};
+
+	touchscreen@5d {
+		compatible = "goodix,gt928";
+		reg = <0x5d>;
+		pinctrl-names = "default";
+	        pinctrl-0 = <&main_oldi_touchscreen_default_pins>;
+		interrupt-parent = <&main_gpio0>;
+		interrupts = <14 IRQ_TYPE_EDGE_FALLING>;
+		irq-gpios = <&main_gpio0 14 GPIO_ACTIVE_HIGH>;
+		touchscreen-size-x = <1920>;
+		touchscreen-size-y = <1200>;
+	};
+};
+
+&ecap0 {
+	status = "okay";
+};
+
+/* BeagleY-AI connector wiring: BeagleBoard Linux ac5c6fe561c328dc989be8c9e45c31ad775abba9. */
+&main_pmx0 {
+ main_oldi_backlight_default_pins: main-oldi-backlight-pins {
+  pinctrl-single,pins = <J722S_IOPAD(0x01f0, PIN_OUTPUT, 8)>;
+ };
+ main_oldi_touchscreen_default_pins: main-oldi-touch-pins {
+  pinctrl-single,pins = <J722S_IOPAD(0x0038, PIN_INPUT, 7)>;
+ };
+};
+&mcu_pmx0 {
+ mcu_oldi_backlight_default_pins: mcu-oldi-backlight-pins {
+  pinctrl-single,pins = <J722S_MCU_IOPAD(0x002c, PIN_OUTPUT, 7)>;
+ };
+};

@@ -1,0 +1,62 @@
+{
+  "320x240": {
+    "viss": {
+      "file": "dcc_viss_10b_320x240.bin",
+      "size": 17293,
+      "sha256": "6e22c750c36b2178c9c88a6c5430f4d29261382bed99c40eac9d3643836b3814"
+    },
+    "2a": {
+      "file": "dcc_2a_10b_320x240.bin",
+      "size": 22951,
+      "sha256": "f8f0998d729b9e69c5d961bcc761ead11bf3b13363be68951b42feded9b1b748"
+    }
+  },
+  "640x480": {
+    "viss": {
+      "file": "dcc_viss_10b_640x480.bin",
+      "size": 17293,
+      "sha256": "5f39b3c7d5d0ece6a8cb008261e44a1117f7230a8ed9a12a12046609f81127aa"
+    },
+    "2a": {
+      "file": "dcc_2a_10b_640x480.bin",
+      "size": 22951,
+      "sha256": "62118f575fbc262f409650a4ad9995e43f93f4d9100678b34a9a57ab360e926b"
+    }
+  },
+  "1280x720": {
+    "viss": {
+      "file": "dcc_viss_10b_1280x720.bin",
+      "size": 17293,
+      "sha256": "b982fea82fe3a8a4cf2deb47fe27c31fc91076b8ba73a35e91121f4fec2136d9"
+    },
+    "2a": {
+      "file": "dcc_2a_10b_1280x720.bin",
+      "size": 22951,
+      "sha256": "868752b6e09d42a52463f2a00dbd57a0dc3bd438bf0b62a80f652bfc32c104a1"
+    }
+  },
+  "1640x1232": {
+    "viss": {
+      "file": "dcc_viss_10b_1640x1232.bin",
+      "size": 17293,
+      "sha256": "bfc0e93b0a2f5fb069c695fa594828cd9905429694e23ce6b08e63706733157e"
+    },
+    "2a": {
+      "file": "dcc_2a_10b_1640x1232.bin",
+      "size": 22951,
+      "sha256": "083c8106dd2a1e48f2d9d773cfd18b45516362e2b86d30a89bd077329d770ac0"
+    }
+  },
+  "1920x1080": {
+    "viss": {
+      "file": "dcc_viss_10b_1920x1080.bin",
+      "size": 19489,
+      "sha256": "bbe7b5c1038fd8ff6fa7e7b67eb91b300490ade0d64840110410ede27c772c60"
+    },
+    "2a": {
+      "file": "dcc_2a_10b_1920x1080.bin",
+      "size": 22951,
+      "sha256": "0b4c25f7155a2406d5a5ae7e387f79a77b614e7e31898a55f0cdba8ada55477b"
+    }
+  }
+}

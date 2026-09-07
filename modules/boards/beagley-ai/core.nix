@@ -9,6 +9,8 @@
     kernel = pkgs.callPackage ../../../packages/linux.nix {};
   in {
     nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
+    # This vendor kernel does not enable firmware decompression.
+    hardware.firmwareCompression = lib.mkDefault "none";
     boot = {
       kernelPackages = lib.mkDefault (pkgs.linuxPackagesFor kernel);
       kernelParams = ["console=${release.board.console}" "earlycon" "rootwait"];
@@ -54,6 +56,10 @@
       deviceTree = config.hardware.deviceTree.package;
     };
     assertions = [
+      {
+        assertion = config.hardware.firmwareCompression == "none";
+        message = "The BeagleY-AI kernel requires uncompressed firmware payloads.";
+      }
       {
         assertion = (config.boot.kernelPackages.kernel.provider or null) == release.provider;
         message = "BeagleY-AI requires the coordinated board kernel/DT/firmware provider.";

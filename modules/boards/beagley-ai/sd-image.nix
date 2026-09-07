@@ -10,6 +10,43 @@
   in {
     imports = [(modulesPath + "/installer/sd-card/sd-image.nix")];
     hardware.enableAllHardware = lib.mkForce false;
+    # The legacy initrd already includes util-linux blkid and BusyBox readlink.
+    # This image profile owns SD root only; reusable core imposes no such rule.
+    boot.initrd.postDeviceCommands = lib.mkIf (!config.boot.initrd.systemd.enable) (lib.mkAfter ''
+      waitDevice /dev/disk/by-label/BEAGLEY_ROOT || true
+      waitDevice /dev/disk/by-label/BEAGLEYBOOT || true
+      udevadm settle
+      ${builtins.readFile ../../../packages/sd-identity-guard.sh}
+      while ! beagley_check_sd_identity; do
+        echo "Refusing ambiguous or non-SD BeagleY-AI root/boot filesystems."
+        fail
+      done
+    '');
+    boot.initrd.systemd.services.beagley-sd-identity = lib.mkIf config.boot.initrd.systemd.enable {
+      description = "Validate unique BeagleY-AI SD root and boot identities";
+      requiredBy = ["sysroot.mount"];
+      before = ["sysroot.mount"];
+      requires = [
+        "dev-disk-by\\x2dlabel-BEAGLEY_ROOT.device"
+        "dev-disk-by\\x2dlabel-BEAGLEYBOOT.device"
+      ];
+      after = [
+        "dev-disk-by\\x2dlabel-BEAGLEY_ROOT.device"
+        "dev-disk-by\\x2dlabel-BEAGLEYBOOT.device"
+        "systemd-udev-settle.service"
+      ];
+      wants = ["systemd-udev-settle.service"];
+      unitConfig = {
+        DefaultDependencies = false;
+        OnFailure = "emergency.target";
+      };
+      serviceConfig.Type = "oneshot";
+      path = [pkgs.util-linux pkgs.coreutils];
+      script = ''
+        ${builtins.readFile ../../../packages/sd-identity-guard.sh}
+        beagley_check_sd_identity
+      '';
+    };
     # Initial recovery image intentionally owns only the SD. NVMe stays unmounted.
     fileSystems = lib.mkForce {
       "/" = {
@@ -36,6 +73,10 @@
       '';
     };
     system.build.beagleyAiBootBundle = bundle;
+    system.build.beagleyAiSdImageCheck = pkgs.callPackage ../../../packages/sd-image-check.nix {
+      image = config.system.build.beagleyAiSdImage;
+      configurationLimit = config.boot.loader.generic-extlinux-compatible.configurationLimit;
+    };
     # K3 ROM needs the FAT partition active with partition type 0x0e.
     # Fail if the upstream image builder changes these construction points.
     system.build.beagleyAiSdImage = config.system.build.sdImage.overrideAttrs (old: let

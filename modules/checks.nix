@@ -9,6 +9,7 @@ in {
   perSystem = {pkgs, ...}: {
     checks =
       {
+        sd-identity-guard = pkgs.callPackage ../packages/sd-identity-check.nix {};
         core-composition = assert failed == [];
         assert builtins.attrNames board.fileSystems == ["/" "/boot"];
         assert !board.services.openssh.enable;
@@ -46,13 +47,14 @@ in {
           let
             bundle = config.flake.packages.${pkgs.stdenv.hostPlatform.system}.beagley-ai-boot-bundle;
           in
-            pkgs.runCommand "beagley-ai-boot-structure" {nativeBuildInputs = [pkgs.dtc pkgs.openssl];} ''
+            pkgs.runCommand "beagley-ai-boot-structure" {nativeBuildInputs = [pkgs.dtc pkgs.openssl (pkgs.python3.withPackages (p: [p.cryptography]))];} ''
               cd ${bundle}
               sha256sum -c SHA256SUMS
               openssl x509 -inform DER -in tiboot3.bin -noout -subject
               test "$(fdtget -t s tispl.bin /configurations/conf-0 firmware)" = atf
               test "$(fdtget -t s tispl.bin /configurations/conf-0 loadables)" = 'tee dm spl'
               fdtget -t s u-boot.img /configurations/conf-0 firmware
+              python3 ${../packages/boot-artifact-check.py} ${bundle} ${bundle.components.r5}/.config ${bundle.components.a53}/.config
               mkdir "$out"
               cp SHA256SUMS "$out/"
             ''

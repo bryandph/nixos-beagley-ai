@@ -1,0 +1,13 @@
+--- a/sdk_builder/makerules/makefile_tidl_mmalib.mak
++++ b/sdk_builder/makerules/makefile_tidl_mmalib.mak
+@@ -51,8 +51,8 @@
+ ifeq ($(BUILD_TARGET_MODE),yes)
+ ifeq ($(ENABLE_NEW_TIDL_STRUCTURE),yes)
+ 	$(foreach current_profile, $(BUILD_PROFILE_LIST_ALL),\
+-		$(MAKE) -C $(TIDL_PATH)/arm-tidl tidl_tiovx_arm_kernels TARGET_BUILD=$(current_profile); \
+-		$(MAKE) -C $(TIDL_PATH) tidl_tiovx_dsp_kernels TARGET_BUILD=$(current_profile); \
++		$(if $(filter yes,$(BUILD_LINUX_MPU)),$(MAKE) -C $(TIDL_PATH)/arm-tidl tidl_tiovx_arm_kernels TARGET_BUILD=$(current_profile) || exit 1;) \
++		$(MAKE) -C $(TIDL_PATH) tidl_tiovx_dsp_kernels TARGET_BUILD=$(current_profile) || exit 1; \
+ 	)
+ else
+ 	$(foreach current_profile, $(BUILD_PROFILE_LIST_ALL),\

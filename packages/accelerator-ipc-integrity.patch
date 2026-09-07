@@ -1,0 +1,44 @@
+--- a/examples/rpmsg_char_simple.c
++++ b/examples/rpmsg_char_simple.c
+@@ -132,6 +132,7 @@
+ 		if (ret != packet_len) {
+ 			printf("bytes written does not match send request, ret = %d, packet_len = %d\n",
+ 				i, ret);
++			ret = -EIO;
+ 			goto out;
+ 		}
+ 
+@@ -141,7 +142,15 @@
+ 			printf("recv_msg failed for iteration %d, ret = %d\n", i, ret);
+ 			goto out;
+ 		}
+-		/* TODO: Verify data integrity */
++		{
++			char expected[64];
++			int expected_len = snprintf(expected, sizeof(expected), "hello there %d!", i);
++			if (packet_len != expected_len || memcmp(packet_buf, expected, expected_len)) {
++				fprintf(stderr, "echo payload mismatch at message %d\n", i);
++				ret = -EBADMSG;
++				goto out;
++			}
++		}
+ 
+ 		/* TODO: Reduce number of prints */
+ 		printf("%s\n", packet_buf);
+@@ -151,9 +160,13 @@
+ 		num_msgs, eptdev_name);
+ 
+ out:
+-	ret = rpmsg_char_close(rcdev);
+-	if (ret < 0)
+-		perror("Can't delete the endpoint device\n");
++	{
++		int close_ret = rpmsg_char_close(rcdev);
++		if (close_ret < 0)
++			perror("Can't delete the endpoint device\n");
++		if (ret >= 0 && close_ret < 0)
++			ret = close_ret;
++	}
+ 
+ 	return ret;
+ }
