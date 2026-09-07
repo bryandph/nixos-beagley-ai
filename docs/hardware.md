@@ -1,6 +1,7 @@
 # Hardware coverage
 
-No NixOS hardware row is physically verified yet. `pending` means implementation
+Initial NixOS cold-boot evidence exists for the core, Ethernet and PCIe paths;
+complete acceptance of those rows remains open. `pending` means implementation
 is still open; it is not a final disposition. Completed rows distinguish
 `verified`, `implemented-unverified` (including missing fixtures), and an
 evidence-backed `blocked` disposition. Source presence or device enumeration
@@ -8,10 +9,10 @@ alone does not establish functional support.
 
 | Interface | Owning implementation | Acceptance | Current disposition |
 | --- | --- | --- | --- |
-| Boot/UART/CPU/RAM/SD | core and SD-image modules | ROM-to-login capture, four CPUs, explained RAM, cold/warm boot, generation rollback | pending hardware test |
-| Ethernet | core, AM65 CPSW | DHCP, SSH under consumer identity, sustained connectivity across boots | pending hardware test |
-| PCIe/NVMe | core, board DT supplement | link/controller/namespace and read-only health; no filesystem mount or writes | pending hardware test |
-| USB-A | core, Cadence and hub DT | USB2/USB3 negotiation, attached devices, repeated boots | pending hardware test |
+| Boot/UART/CPU/RAM/SD | core and SD-image modules | ROM-to-login capture, four CPUs, explained RAM, cold/warm boot, generation rollback | cold boot to serial root verified; four CPUs, 3.7 GiB usable RAM and SD growth observed; warm boot/rollback pending |
+| Ethernet | core, AM65 CPSW | DHCP, SSH under consumer identity, sustained connectivity across boots | DHCP, gateway traffic and temporary operator-key SSH verified; declarative identity and sustained tests pending |
+| PCIe/NVMe | core, board DT supplement | link/controller/namespace and read-only health; no filesystem mount or writes | Gen3 x1 controller/namespace enumeration verified after full power removal; health and power-transition reliability pending; filesystem unmounted |
+| USB-A | core, Cadence and hub DT | USB2/USB3 negotiation, attached devices, repeated boots | both four-port hubs enumerate after transient reset/protocol errors; attached-device and repeat-boot tests pending |
 | Thermal/fan/CPU idle/frequency | core kernel/DT | bounded load only after cooling check; thermal and clock evidence | pending hardware test |
 | RTC/watchdog/LEDs/buttons/power | core kernel/DT | controls, retention and recoverable watchdog/reboot tests | pending hardware test |
 | Wi-Fi/BLE | wireless module | matched CC33xx SDK, Wi-Fi data/reconnect and BLE GATT peer | pending implementation |

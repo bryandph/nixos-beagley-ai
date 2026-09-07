@@ -13,6 +13,8 @@
       kernelPackages = lib.mkDefault (pkgs.linuxPackagesFor kernel);
       kernelParams = ["console=${release.board.console}" "earlycon" "rootwait"];
       supportedFilesystems = lib.mkForce ["ext4" "vfat"];
+      initrd.includeDefaultModules = false;
+      initrd.systemd.tpm2.enable = lib.mkDefault false;
       initrd.availableKernelModules = ["mmc_block" "sdhci" "sdhci_am654"];
       loader = {
         grub.enable = false;

@@ -45,6 +45,8 @@ in
       FHANDLE = yes;
       SECCOMP = yes;
       SECCOMP_FILTER = yes;
+      # NixOS's default firewall installs an IPv4 rpfilter rule at startup.
+      IP_NF_MATCH_RPFILTER = module;
       UNIX = yes;
       BINFMT_ELF = yes;
       BINFMT_SCRIPT = yes;

@@ -52,8 +52,14 @@ in
       postPatch =
         old.postPatch
         + ''
-          # Fail on missing payloads; never permit binman's test placeholders.
-          substituteInPlace Makefile --replace-fail "--allow-missing --fake-ext-blobs" ""
+            # Fail on missing payloads; never permit binman's test placeholders.
+            substituteInPlace Makefile --replace-fail "--allow-missing --fake-ext-blobs" ""
+          # HS-FS uses upstream's public test key. Pin certificate metadata rather
+          # than taking OpenSSL's wall clock and random serial defaults.
+          # OpenSSL >= 3.4 supports explicit req validity dates.
+          substituteInPlace tools/binman/btool/openssl.py \
+            --replace-fail "'req', '-new', '-x509', '-key'" \
+            "'req', '-new', '-x509', '-set_serial', '1', '-not_before', '20200101000000Z', '-not_after', '20400101000000Z', '-key'"
         ''
         + lib.optionalString r5 ''
           # Build the selected HS-FS variant; HS-SE requires different firmware.

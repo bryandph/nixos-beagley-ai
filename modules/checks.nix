@@ -26,6 +26,19 @@ in {
           '';
       }
       // lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
+        boot-reproducibility = let
+          r5 = pkgs.callPackage ../packages/uboot.nix {stage = "r5";};
+          a53 = pkgs.callPackage ../packages/uboot.nix {};
+          r5Again = r5.overrideAttrs {BEAGLEY_REPRO_INSTANCE = "second";};
+          a53Again = a53.overrideAttrs {BEAGLEY_REPRO_INSTANCE = "second";};
+        in
+          pkgs.runCommand "beagley-ai-boot-reproducibility" {} ''
+            cmp ${r5}/tiboot3.bin ${r5Again}/tiboot3.bin
+            cmp ${a53}/tispl.bin ${a53Again}/tispl.bin
+            cmp ${a53}/u-boot.img ${a53Again}/u-boot.img
+            mkdir "$out"
+            sha256sum ${r5}/tiboot3.bin ${a53}/tispl.bin ${a53}/u-boot.img > "$out/SHA256SUMS"
+          '';
         boot-structure = (
           let
             bundle = config.flake.packages.${pkgs.stdenv.hostPlatform.system}.beagley-ai-boot-bundle;

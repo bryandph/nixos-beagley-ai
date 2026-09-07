@@ -40,7 +40,8 @@
     # Fail if the upstream image builder changes these construction points.
     system.build.beagleyAiSdImage = config.system.build.sdImage.overrideAttrs (old: let
       before = ["type=b\n" "type=83, bootable" "mkfs.vfat --invariant"];
-      after = ["type=e, bootable\n" "type=83" "mkfs.vfat -F 16 --invariant"];
+      # Match k3_common.inc's no-alignment formatting so FAT fills the partition.
+      after = ["type=e, bootable\n" "type=83" "mkfs.vfat -a -F 16 --invariant"];
     in {
       buildCommand = assert lib.all (s: lib.hasInfix s old.buildCommand) before;
         lib.replaceStrings before after old.buildCommand;
