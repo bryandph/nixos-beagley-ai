@@ -1,7 +1,8 @@
 # Hardware coverage
 
-Initial NixOS cold-boot evidence exists for the core, Ethernet and PCIe paths;
-complete acceptance of those rows remains open. `pending` means implementation
+The NixOS server milestone has passed cold and warm boot with a consumer's
+declarative SSH identity and firewall. Complete acceptance of every interface
+below remains open. `pending` means implementation
 is still open; it is not a final disposition. Completed rows distinguish
 `verified`, `implemented-unverified` (including missing fixtures), and an
 evidence-backed `blocked` disposition. Source presence or device enumeration
@@ -9,12 +10,12 @@ alone does not establish functional support.
 
 | Interface | Owning implementation | Acceptance | Current disposition |
 | --- | --- | --- | --- |
-| Boot/UART/CPU/RAM/SD | core and SD-image modules | ROM-to-login capture, four CPUs, explained RAM, cold/warm boot, generation rollback | cold boot to serial root verified; four CPUs, 3.7 GiB usable RAM and SD growth observed; warm boot/rollback pending |
-| Ethernet | core, AM65 CPSW | DHCP, SSH under consumer identity, sustained connectivity across boots | DHCP, gateway traffic and temporary operator-key SSH verified; declarative identity and sustained tests pending |
-| PCIe/NVMe | core, board DT supplement | link/controller/namespace and read-only health; no filesystem mount or writes | Gen3 x1 controller/namespace enumeration verified after full power removal; health and power-transition reliability pending; filesystem unmounted |
+| Boot/UART/CPU/RAM/SD | core and SD-image modules | ROM-to-login capture, four CPUs, explained RAM, cold/warm boot, generation rollback | cold and warm boot verified; four CPUs, 3.7 GiB usable RAM and SD growth observed; generation rollback test pending |
+| Ethernet | core, AM65 CPSW | DHCP, SSH under consumer identity, sustained connectivity across boots | Gigabit link, DHCP, gateway traffic and declarative consumer SSH/firewall verified after warm reboot; sustained load tests pending |
+| PCIe/NVMe | core, board DT supplement | link/controller/namespace and read-only health; no filesystem mount or writes | Gen3 x1 controller/namespace enumeration verified on cold and latest warm boot; earlier missing-device boots remain unresolved; health and power-transition reliability pending; filesystem unmounted |
 | USB-A | core, Cadence and hub DT | USB2/USB3 negotiation, attached devices, repeated boots | both four-port hubs enumerate after transient reset/protocol errors; attached-device and repeat-boot tests pending |
-| Thermal/fan/CPU idle/frequency | core kernel/DT | bounded load only after cooling check; thermal and clock evidence | pending hardware test |
-| RTC/watchdog/LEDs/buttons/power | core kernel/DT | controls, retention and recoverable watchdog/reboot tests | pending hardware test |
+| Thermal/fan/CPU idle/frequency | core kernel/DT | bounded load only after cooling check; thermal and clock evidence | heatsink fitted, no fan; roughly 50–66 °C observed without a controlled stress test; CPU frequency policy absent; idle and load acceptance pending |
+| RTC/watchdog/LEDs/buttons/power | core kernel/DT | controls, retention and recoverable watchdog/reboot tests | two RTCs enumerate; orderly shutdown and warm reboot observed; RTC retention, watchdog and remaining control tests pending |
 | Wi-Fi/BLE | wireless module | matched CC33xx SDK, Wi-Fi data/reconnect and BLE GATT peer | pending implementation |
 | USB-C device | gadget module | serial/network gadget enumeration and traffic | pending implementation |
 | HDMI/audio/McASP | multimedia and expansion modules | actual output/modes and playback on identified sink/HAT | pending implementation |
@@ -31,6 +32,11 @@ The complete provider must pass concurrent compatible workloads within its
 thermal and memory budget. Optional imports describe consumer choice, not
 deferral of feasible hardware work. No application lifecycle operation may
 stop or replace the system Device Manager core.
+
+Current server verification uses USB-C power. The attached third-party PoE/NVMe
+HAT has an unresolved PoE power-up fault; PoE operation is not accepted. Its
+NVMe path is covered separately above. Consumer fleet management and secrets
+enrollment do not establish acceptance of untested board hardware.
 
 The kernel, DT, firmware resource tables and Linux accelerator libraries must
 share one memory ABI. BeagleY has split physical RAM banks: an address above
