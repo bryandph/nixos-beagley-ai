@@ -15,7 +15,7 @@
     "name": "onnxruntime",
     "url": "https://github.com/TexasInstruments/onnxruntime.git",
     "rev": "c5511e2854c94a627666c8e54f545ed46466036c",
-    "hash": "sha256-iW37Dtmfr3INWNcX8gstnuXTMbACR8ebHS6yKMADOOs="
+    "hash": "sha256-flJIiWA6pYH7BxUoQqOa5efLkVattQDwyVTBnRnNmQQ="
   },
   {
     "name": "tensorflow",
